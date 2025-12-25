@@ -1,5 +1,6 @@
-package com.example.liquid_2048_game
+package com.ska.liquid2048
 
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity()
+

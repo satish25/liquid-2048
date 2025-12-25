@@ -115,12 +115,16 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> signInWithGoogle() async {
+    debugPrint('signInWithGoogle: Starting...');
     state = state.copyWith(status: AuthStatus.loading);
     try {
       final result = await _authService.signInWithGoogle();
+      debugPrint('signInWithGoogle: Result = $result');
       if (result == null) {
+        debugPrint('signInWithGoogle: User cancelled');
         state = state.copyWith(status: AuthStatus.unauthenticated);
       } else {
+        debugPrint('signInWithGoogle: Success! User = ${result.user?.email}');
         // Clear guest mode flag when signing in with Google
         await _prefs?.setBool(_guestModeKey, false);
         // Explicitly set authenticated state
@@ -129,62 +133,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
           user: result.user,
           isGuest: false,
         );
+        debugPrint('signInWithGoogle: State set to authenticated');
       }
     } catch (e) {
-      state = AuthState(
-        status: AuthStatus.error,
-        errorMessage: _getReadableError(e.toString()),
-      );
-    }
-  }
-
-  Future<void> signInWithApple() async {
-    state = state.copyWith(status: AuthStatus.loading);
-    try {
-      final result = await _authService.signInWithApple();
-      if (result == null) {
-        state = state.copyWith(status: AuthStatus.unauthenticated);
-      } else {
-        // Clear guest mode flag when signing in with Apple
-        await _prefs?.setBool(_guestModeKey, false);
-        // Explicitly set authenticated state
-        state = AuthState(
-          status: AuthStatus.authenticated,
-          user: result.user,
-          isGuest: false,
-        );
-      }
-    } catch (e) {
-      state = AuthState(
-        status: AuthStatus.error,
-        errorMessage: _getReadableError(e.toString()),
-      );
-    }
-  }
-
-  Future<void> signInWithFacebook() async {
-    state = state.copyWith(status: AuthStatus.loading);
-    try {
-      final result = await _authService.signInWithFacebook();
-      if (result == null) {
-        state = state.copyWith(status: AuthStatus.unauthenticated);
-      }
-    } catch (e) {
-      state = AuthState(
-        status: AuthStatus.error,
-        errorMessage: _getReadableError(e.toString()),
-      );
-    }
-  }
-
-  Future<void> signInWithTwitter() async {
-    state = state.copyWith(status: AuthStatus.loading);
-    try {
-      final result = await _authService.signInWithTwitter();
-      if (result == null) {
-        state = state.copyWith(status: AuthStatus.unauthenticated);
-      }
-    } catch (e) {
+      debugPrint('signInWithGoogle: Error = $e');
       state = AuthState(
         status: AuthStatus.error,
         errorMessage: _getReadableError(e.toString()),
@@ -200,6 +152,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       if (result != null) {
         // Save guest mode preference
         await _prefs?.setBool(_guestModeKey, true);
+        // Explicitly set authenticated state
+        state = AuthState(
+          status: AuthStatus.authenticated,
+          user: result.user,
+          isGuest: true,
+        );
       }
     } catch (e) {
       // If Firebase anonymous auth fails, use local guest mode

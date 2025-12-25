@@ -35,9 +35,6 @@ dependencies:
   
   # Social Sign-In
   google_sign_in: ^6.2.2
-  sign_in_with_apple: ^6.1.4
-  flutter_facebook_auth: ^7.1.1
-  twitter_login: ^4.4.2
   
   # For storing auth state
   flutter_secure_storage: ^9.2.4
