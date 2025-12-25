@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1092240937434",
+    "project_id": "liquid-2048",
+    "storage_bucket": "liquid-2048.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092240937434:android:411a328898e0e0723870e3",
+        "android_client_info": {
+          "package_name": "com.ska.liquid2048"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM9RaaD7MH3uAeExE8HAtiHEnDW30bWVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

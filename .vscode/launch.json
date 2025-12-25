@@ -1,0 +1,255 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Liquid 2048 (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Liquid 2048 (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "Liquid 2048 (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "iOS Simulator (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "iPhone"
+      ]
+    },
+    {
+      "name": "iOS Simulator (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "iPhone"
+      ]
+    },
+    {
+      "name": "Android Emulator (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "android"
+      ]
+    },
+    {
+      "name": "Android Emulator (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "android"
+      ]
+    },
+    {
+      "name": "Android Emulator (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "-d",
+        "android"
+      ]
+    },
+    {
+      "name": "Chrome (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "chrome"
+      ]
+    },
+    {
+      "name": "Chrome (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "chrome"
+      ]
+    },
+    {
+      "name": "Chrome (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "-d",
+        "chrome"
+      ]
+    },
+    {
+      "name": "Edge (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "edge"
+      ]
+    },
+    {
+      "name": "macOS (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "macos"
+      ]
+    },
+    {
+      "name": "macOS (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "macos"
+      ]
+    },
+    {
+      "name": "macOS (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "-d",
+        "macos"
+      ]
+    },
+    {
+      "name": "Windows (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "windows"
+      ]
+    },
+    {
+      "name": "Windows (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "windows"
+      ]
+    },
+    {
+      "name": "Windows (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "-d",
+        "windows"
+      ]
+    },
+    {
+      "name": "Linux (Debug)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "-d",
+        "linux"
+      ]
+    },
+    {
+      "name": "Linux (Profile)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "-d",
+        "linux"
+      ]
+    },
+    {
+      "name": "Linux (Release)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "-d",
+        "linux"
+      ]
+    },
+    {
+      "name": "Attach to Flutter Process",
+      "request": "attach",
+      "type": "dart"
+    },
+    {
+      "name": "Run All Tests",
+      "request": "launch",
+      "type": "dart",
+      "program": "test/",
+      "args": []
+    },
+    {
+      "name": "Run Game Logic Tests",
+      "request": "launch",
+      "type": "dart",
+      "program": "test/game_manager_test.dart"
+    },
+    {
+      "name": "Run Widget Tests",
+      "request": "launch",
+      "type": "dart",
+      "program": "test/widget_test.dart"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "All Mobile Platforms",
+      "configurations": ["iOS Simulator (Debug)", "Android Emulator (Debug)"]
+    }
+  ]
+}
+

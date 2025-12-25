@@ -1,0 +1,79 @@
+name: liquid_2048_game
+description: "A beautiful 2048 game with liquid glass aesthetics"
+publish_to: 'none'
+
+version: 1.0.0+1  # Version 1.0.0, Build number 1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  
+  # State Management
+  flutter_riverpod: ^2.4.9
+  
+  # Storage for high scores
+  shared_preferences: ^2.2.2
+  
+  # Beautiful fonts
+  google_fonts: ^6.1.0
+  
+  # Haptic feedback
+  vibration: ^2.0.0
+  
+  # Audio for sound effects
+  audioplayers: ^6.0.0
+  
+  # Firebase
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.6.0
+  
+  # Social Sign-In
+  google_sign_in: ^6.2.2
+  sign_in_with_apple: ^6.1.4
+  flutter_facebook_auth: ^7.1.1
+  twitter_login: ^4.4.2
+  
+  # For storing auth state
+  flutter_secure_storage: ^9.2.4
+  
+  # Share functionality
+  share_plus: ^10.1.4
+  url_launcher: ^6.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+
+# App icon configuration
+flutter_launcher_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    background_color: "#0D0D1A"
+    theme_color: "#00F5FF"
+  macos:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+  windows:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    icon_size: 256
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#0D0D1A"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+  background_color_ios: "#0D0D1A"
+
+flutter:
+  uses-material-design: true
