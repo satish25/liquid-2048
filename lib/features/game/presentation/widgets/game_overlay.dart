@@ -1,10 +1,11 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../shared/theme/app_theme.dart';
 import '../../../../shared/widgets/liquid_glass_container.dart';
 import '../providers/game_provider.dart';
@@ -86,9 +87,10 @@ class ShareScoreModal extends StatelessWidget {
       'https://play.google.com/store/apps/details?id=com.liquid2048.game';
   static const String appStoreUrl =
       'https://apps.apple.com/app/liquid-2048/id123456789';
-  static const String webUrl = 'https://liquid2048.web.app';
+  static const String webUrl = 'https://liquid-2048.web.app/';
 
-  String get _shareText => '''🎮 I just scored $score points in Liquid 2048! Can you beat my score? 🏆
+  String get _shareText =>
+      '''🎮 I just scored $score points in Liquid 2048! Can you beat my score? 🏆
 
 📱 Download now:
 ▸ Android: $playStoreUrl
@@ -343,10 +345,7 @@ class ShareScoreModal extends StatelessWidget {
   void _showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          message,
-          style: GoogleFonts.rajdhani(fontSize: 16),
-        ),
+        content: Text(message, style: GoogleFonts.rajdhani(fontSize: 16)),
         backgroundColor: LiquidColors.neonPink.withOpacity(0.8),
         behavior: SnackBarBehavior.floating,
       ),
@@ -392,21 +391,13 @@ class _SocialShareButton extends StatelessWidget {
               ],
             ),
             child: Center(
-              child: customIcon ??
-                  Icon(
-                    icon,
-                    color: Colors.white,
-                    size: 24,
-                  ),
+              child: customIcon ?? Icon(icon, color: Colors.white, size: 24),
             ),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: GoogleFonts.rajdhani(
-              fontSize: 12,
-              color: Colors.white70,
-            ),
+            style: GoogleFonts.rajdhani(fontSize: 12, color: Colors.white70),
           ),
         ],
       ),
@@ -533,12 +524,14 @@ class _OverlayBaseState extends State<_OverlayBase>
       duration: const Duration(milliseconds: 400),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+    _scaleAnimation = Tween<double>(
+      begin: 0.8,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
     _controller.forward();
   }
 
