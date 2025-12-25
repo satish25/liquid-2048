@@ -72,8 +72,8 @@ We may update this Privacy Policy from time to time. We will notify you of any c
 
 If you have any questions about this Privacy Policy, please contact us:
 
-- **Email**: your-email@example.com
-- **GitHub**: https://github.com/yourusername/liquid_2048_game
+- **Email**: satishkumara225@gmail.com
+- **GitHub**: https://github.com/satish25/liquid-2048
 
 ## Consent
 
