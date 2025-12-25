@@ -1,6 +1,6 @@
 # Privacy Policy for Liquid 2048
 
-**Last Updated: December 2024**
+**Last Updated: December 2025**
 
 ## Introduction
 

@@ -1,13 +1,12 @@
-import 'dart:io';
 import 'dart:ui';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../core/providers/auth_provider.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/liquid_glass_container.dart';
-import '../../home/presentation/home_screen.dart';
 
 /// Login screen with social authentication options
 class LoginScreen extends ConsumerStatefulWidget {
@@ -35,13 +34,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
     );
 
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.3),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOutCubic,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
     _animationController.forward();
   }
@@ -57,20 +56,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final authState = ref.watch(authStateProvider);
     final size = MediaQuery.of(context).size;
 
-    // Listen for auth state changes
+    // Listen for auth errors only (navigation is handled by AuthWrapper in main.dart)
     ref.listen<AuthState>(authStateProvider, (previous, next) {
-      if (next.status == AuthStatus.authenticated) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const HomeScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
-          ),
-        );
-      } else if (next.status == AuthStatus.error && next.errorMessage != null) {
+      if (next.status == AuthStatus.error && next.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(next.errorMessage!),
@@ -200,10 +188,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         const SizedBox(height: 24),
         ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
-            colors: [
-              LiquidColors.neonCyan,
-              LiquidColors.neonPurple,
-            ],
+            colors: [LiquidColors.neonCyan, LiquidColors.neonPurple],
           ).createShader(bounds),
           child: Text(
             'LIQUID 2048',
@@ -258,30 +243,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             backgroundColor: Colors.white,
             textColor: Colors.black87,
           ),
-
-          // Apple Sign In (iOS/macOS only)
-          if (!kIsWeb && (Platform.isIOS || Platform.isMacOS)) ...[
-            const SizedBox(height: 16),
-            _SocialLoginButton(
-              onPressed: () =>
-                  ref.read(authStateProvider.notifier).signInWithApple(),
-              icon: const Icon(Icons.apple, color: Colors.white, size: 24),
-              label: 'Continue with Apple',
-              backgroundColor: Colors.black,
-              textColor: Colors.white,
-            ),
-          ],
         ],
       ),
     );
   }
 
   Widget _buildGoogleIcon() {
-    return SizedBox(
+    return Container(
       width: 24,
       height: 24,
-      child: CustomPaint(
-        painter: _GoogleLogoPainter(),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Center(
+        child: Text(
+          'G',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            foreground: Paint()
+              ..shader = const LinearGradient(
+                colors: [
+                  Color(0xFF4285F4), // Blue
+                  Color(0xFF34A853), // Green
+                  Color(0xFFFBBC05), // Yellow
+                  Color(0xFFEA4335), // Red
+                ],
+                stops: [0.0, 0.33, 0.66, 1.0],
+              ).createShader(const Rect.fromLTWH(0, 0, 18, 18)),
+          ),
+        ),
       ),
     );
   }
@@ -291,12 +283,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       children: [
         Row(
           children: [
-            Expanded(
-              child: Container(
-                height: 1,
-                color: Colors.white24,
-              ),
-            ),
+            Expanded(child: Container(height: 1, color: Colors.white24)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
@@ -308,18 +295,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 ),
               ),
             ),
-            Expanded(
-              child: Container(
-                height: 1,
-                color: Colors.white24,
-              ),
-            ),
+            Expanded(child: Container(height: 1, color: Colors.white24)),
           ],
         ),
         const SizedBox(height: 24),
         LiquidGlassButton(
-          onPressed: () =>
-              ref.read(authStateProvider.notifier).signInAsGuest(),
+          onPressed: () => ref.read(authStateProvider.notifier).signInAsGuest(),
           accentColor: LiquidColors.neonPurple,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
           child: Row(
@@ -350,10 +331,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         children: [
           Text(
             'By continuing, you agree to our ',
-            style: GoogleFonts.rajdhani(
-              fontSize: 12,
-              color: Colors.white38,
-            ),
+            style: GoogleFonts.rajdhani(fontSize: 12, color: Colors.white38),
           ),
           GestureDetector(
             onTap: () => _showTermsOfService(context),
@@ -369,10 +347,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           ),
           Text(
             ' and ',
-            style: GoogleFonts.rajdhani(
-              fontSize: 12,
-              color: Colors.white38,
-            ),
+            style: GoogleFonts.rajdhani(fontSize: 12, color: Colors.white38),
           ),
           GestureDetector(
             onTap: () => _showPrivacyPolicy(context),
@@ -490,86 +465,12 @@ class _SocialLoginButton extends StatelessWidget {
   }
 }
 
-/// Google logo painter
-class _GoogleLogoPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..style = PaintingStyle.fill;
-
-    // Blue
-    paint.color = const Color(0xFF4285F4);
-    canvas.drawArc(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      -0.5,
-      1.5,
-      true,
-      paint,
-    );
-
-    // Green
-    paint.color = const Color(0xFF34A853);
-    canvas.drawArc(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      1.0,
-      1.0,
-      true,
-      paint,
-    );
-
-    // Yellow
-    paint.color = const Color(0xFFFBBC05);
-    canvas.drawArc(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      2.0,
-      1.0,
-      true,
-      paint,
-    );
-
-    // Red
-    paint.color = const Color(0xFFEA4335);
-    canvas.drawArc(
-      Rect.fromLTWH(0, 0, size.width, size.height),
-      3.0,
-      1.0,
-      true,
-      paint,
-    );
-
-    // White center
-    paint.color = Colors.white;
-    canvas.drawCircle(
-      Offset(size.width / 2, size.height / 2),
-      size.width * 0.35,
-      paint,
-    );
-
-    // Blue bar
-    paint.color = const Color(0xFF4285F4);
-    canvas.drawRect(
-      Rect.fromLTWH(
-        size.width * 0.5,
-        size.height * 0.35,
-        size.width * 0.5,
-        size.height * 0.3,
-      ),
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
 /// Legal Document Dialog Widget
 class _LegalDocumentDialog extends StatelessWidget {
   final String title;
   final String content;
 
-  const _LegalDocumentDialog({
-    required this.title,
-    required this.content,
-  });
+  const _LegalDocumentDialog({required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -608,9 +509,7 @@ class _LegalDocumentDialog extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: Colors.white.withOpacity(0.1),
-                  ),
+                  bottom: BorderSide(color: Colors.white.withOpacity(0.1)),
                 ),
               ),
               child: Row(
@@ -661,9 +560,7 @@ class _LegalDocumentDialog extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 border: Border(
-                  top: BorderSide(
-                    color: Colors.white.withOpacity(0.1),
-                  ),
+                  top: BorderSide(color: Colors.white.withOpacity(0.1)),
                 ),
               ),
               child: SizedBox(
@@ -702,7 +599,7 @@ class _LegalDocumentDialog extends StatelessWidget {
 const String _termsOfServiceContent = '''
 TERMS OF SERVICE
 
-Last Updated: December 2024
+Last Updated: December 2025
 
 Welcome to Liquid 2048! These Terms of Service ("Terms") govern your use of the Liquid 2048 mobile application and website (the "Service").
 
@@ -721,7 +618,7 @@ Liquid 2048 is a puzzle game application that allows users to:
 3. USER ACCOUNTS
 
 3.1 Account Creation
-You may use Liquid 2048 as a guest or create an account using social login providers (Google, Apple, Facebook, X/Twitter).
+You may use Liquid 2048 as a guest or create an account using Google Sign-in.
 
 3.2 Account Responsibility
 You are responsible for maintaining the confidentiality of your account and for all activities under your account.
@@ -774,7 +671,7 @@ Thank you for using Liquid 2048!
 const String _privacyPolicyContent = '''
 PRIVACY POLICY
 
-Last Updated: December 2024
+Last Updated: December 2025
 
 Liquid 2048 ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information.
 
@@ -790,7 +687,7 @@ Liquid 2048 ("we", "our", or "us") is committed to protecting your privacy. This
 • Performance and crash data
 
 1.3 Information from Third Parties
-When you sign in with Google, Apple, Facebook, or X/Twitter, we receive basic profile information as authorized by you.
+When you sign in with Google, we receive basic profile information as authorized by you.
 
 2. HOW WE USE YOUR INFORMATION
 

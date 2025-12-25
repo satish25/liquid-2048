@@ -31,7 +31,7 @@ version: 1.0.0+1  # Format: major.minor.patch+buildNumber
 
 ## Version History
 
-### Version 1.0.0 (Build 1) - December 2024
+### Version 1.0.0 (Build 1) - December 2025
 🎉 Initial Release
 
 **Features:**

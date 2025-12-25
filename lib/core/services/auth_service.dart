@@ -1,9 +1,10 @@
 import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:twitter_login/twitter_login.dart';
 
 /// Authentication service for handling social logins
@@ -24,11 +25,20 @@ class AuthService {
   /// Check if user is logged in
   bool get isLoggedIn => currentUser != null;
 
+  // iOS Client ID from GoogleService-Info.plist
+  static const String _iosClientId =
+      '1092240937434-jh4mooq6obeqshbpfiugf0h5i5ehoqfh.apps.googleusercontent.com';
+
   /// Sign in with Google
   Future<UserCredential?> signInWithGoogle() async {
     try {
+      // Configure GoogleSignIn with iOS client ID
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId: !kIsWeb && Platform.isIOS ? _iosClientId : null,
+      );
+
       // Trigger the authentication flow
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
         // User cancelled the sign-in
@@ -82,7 +92,8 @@ class AuthService {
       // Update display name if available
       if (appleCredential.givenName != null) {
         await userCredential.user?.updateDisplayName(
-          '${appleCredential.givenName} ${appleCredential.familyName ?? ''}'.trim(),
+          '${appleCredential.givenName} ${appleCredential.familyName ?? ''}'
+              .trim(),
         );
       }
 
@@ -211,4 +222,3 @@ class AuthService {
     return await SignInWithApple.isAvailable();
   }
 }
-

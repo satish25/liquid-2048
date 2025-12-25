@@ -5,19 +5,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/providers/auth_provider.dart';
-import 'firebase_options.dart';
 import 'features/auth/presentation/login_screen.dart';
 import 'features/game/presentation/providers/game_provider.dart';
 import 'features/home/presentation/home_screen.dart';
+import 'firebase_options.dart';
 import 'shared/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // Initialize Firebase (handle if already initialized by native SDK)
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    // Firebase already initialized (e.g., by iOS native SDK)
+    debugPrint('Firebase already initialized: $e');
+  }
 
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
@@ -42,9 +47,7 @@ void main() async {
 
   runApp(
     ProviderScope(
-      overrides: [
-        sharedPreferencesProvider.overrideWithValue(prefs),
-      ],
+      overrides: [sharedPreferencesProvider.overrideWithValue(prefs)],
       child: const Liquid2048App(),
     ),
   );
