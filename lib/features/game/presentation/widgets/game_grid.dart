@@ -1,12 +1,14 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../../shared/theme/app_theme.dart';
 import '../../domain/game_state.dart';
 import '../providers/game_provider.dart';
 import 'game_tile.dart';
 
-/// The main game grid with swipe gestures
+/// The main game grid with swipe gestures - supports multiple grid sizes
 class GameGrid extends ConsumerStatefulWidget {
   const GameGrid({super.key});
 
@@ -15,7 +17,6 @@ class GameGrid extends ConsumerStatefulWidget {
 }
 
 class _GameGridState extends ConsumerState<GameGrid> {
-  static const int gridSize = 4;
   static const double gridPadding = 8.0;
   static const double tileSpacing = 8.0;
 
@@ -57,15 +58,19 @@ class _GameGridState extends ConsumerState<GameGrid> {
   @override
   Widget build(BuildContext context) {
     final gameState = ref.watch(gameProvider);
+    final gridSize = gameState.gridSize;
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Calculate tile size based on available space
+        // Calculate tile size based on available space and grid size
         final availableSize = constraints.maxWidth < constraints.maxHeight
             ? constraints.maxWidth
             : constraints.maxHeight;
         final gridSizeWithPadding = availableSize - (gridPadding * 2);
-        final tileSize = (gridSizeWithPadding - (tileSpacing * (gridSize - 1))) / gridSize;
+        // Use floor to prevent floating point overflow issues
+        final tileSize =
+            ((gridSizeWithPadding - (tileSpacing * (gridSize - 1))) / gridSize)
+                .floorToDouble();
 
         return GestureDetector(
           onPanStart: _onPanStart,
@@ -113,9 +118,9 @@ class _GameGridState extends ConsumerState<GameGrid> {
                   child: Stack(
                     children: [
                       // Background grid (empty tiles)
-                      _buildEmptyGrid(tileSize),
+                      _buildEmptyGrid(tileSize, gridSize),
                       // Actual tiles
-                      ..._buildTiles(gameState, tileSize),
+                      ..._buildTiles(gameState, tileSize, gridSize),
                     ],
                   ),
                 ),
@@ -127,27 +132,33 @@ class _GameGridState extends ConsumerState<GameGrid> {
     );
   }
 
-  Widget _buildEmptyGrid(double tileSize) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(gridSize, (row) {
-        return Padding(
-          padding: EdgeInsets.only(bottom: row < gridSize - 1 ? tileSpacing : 0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(gridSize, (col) {
-              return Padding(
-                padding: EdgeInsets.only(right: col < gridSize - 1 ? tileSpacing : 0),
-                child: EmptyTile(size: tileSize),
-              );
-            }),
-          ),
-        );
-      }),
+  Widget _buildEmptyGrid(double tileSize, int gridSize) {
+    return ClipRect(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(gridSize, (row) {
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: row < gridSize - 1 ? tileSpacing : 0,
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(gridSize, (col) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    right: col < gridSize - 1 ? tileSpacing : 0,
+                  ),
+                  child: EmptyTile(size: tileSize),
+                );
+              }),
+            ),
+          );
+        }),
+      ),
     );
   }
 
-  List<Widget> _buildTiles(GameState gameState, double tileSize) {
+  List<Widget> _buildTiles(GameState gameState, double tileSize, int gridSize) {
     final tiles = <Widget>[];
 
     for (int row = 0; row < gridSize; row++) {
@@ -174,6 +185,7 @@ class _GameGridState extends ConsumerState<GameGrid> {
                 isNew: tile.isNew,
                 isMerged: tile.isMerged,
                 size: tileSize,
+                gridSize: gridSize,
               ),
             ),
           );
@@ -184,4 +196,3 @@ class _GameGridState extends ConsumerState<GameGrid> {
     return tiles;
   }
 }
-

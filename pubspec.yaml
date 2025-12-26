@@ -2,7 +2,7 @@ name: liquid_2048_game
 description: "A beautiful 2048 game with liquid glass aesthetics"
 publish_to: 'none'
 
-version: 1.0.0+1  # Version 1.0.0, Build number 1
+version: 2.0.0+1  # Version 2.0.0, Build number 1
 
 environment:
   sdk: ^3.10.3

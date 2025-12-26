@@ -1,11 +1,14 @@
 import 'dart:math';
+
+import '../../../core/models/game_settings.dart';
 import 'game_state.dart';
 import 'tile.dart';
 
 /// Pure functions for game logic - can be tested independently from UI
+/// Now supports multiple grid sizes and game modes
 class GameManager {
-  static const int gridSize = 4;
-  static const int winningValue = 2048;
+  static const int defaultGridSize = 4;
+  static const int defaultWinningValue = 2048;
   static int _tileIdCounter = 0;
 
   /// Generates a unique ID for a new tile
@@ -19,15 +22,75 @@ class GameManager {
   }
 
   /// Creates a new game with two random tiles
-  static GameState newGame({int highScore = 0}) {
-    var state = GameState.initial().copyWith(highScore: highScore, history: []);
-    state = addRandomTile(state);
-    state = addRandomTile(state);
+  static GameState newGame({
+    int highScore = 0,
+    GameSettings settings = const GameSettings(),
+    Random? random,
+  }) {
+    final gridSize = settings.gridDimension;
+    final grid = List.generate(gridSize, (_) => List.filled(gridSize, 0));
+
+    var state = GameState(
+      grid: grid,
+      tiles: const [],
+      score: 0,
+      highScore: highScore,
+      isGameOver: false,
+      isGameWon: false,
+      hasWonBefore: false,
+      history: const [],
+      gridSize: gridSize,
+      gameMode: settings.mode,
+      movesCount: 0,
+      timeLimitSeconds: settings.timeLimitSeconds,
+      movesLimit: settings.movesLimit,
+    );
+
+    state = addRandomTile(state, random: random);
+    state = addRandomTile(state, random: random);
     return state;
+  }
+
+  /// Creates a new game for daily challenge with specific starting tiles
+  static GameState newDailyChallenge({
+    int highScore = 0,
+    required List<(int row, int col, int value)> startingTiles,
+    int gridSize = 4,
+  }) {
+    final grid = List.generate(gridSize, (_) => List.filled(gridSize, 0));
+
+    final tiles = <Tile>[];
+    for (final (row, col, value) in startingTiles) {
+      grid[row][col] = value;
+      tiles.add(
+        Tile(
+          value: value,
+          row: row,
+          col: col,
+          id: _generateTileId(),
+          isNew: true,
+        ),
+      );
+    }
+
+    return GameState(
+      grid: grid,
+      tiles: tiles,
+      score: 0,
+      highScore: highScore,
+      isGameOver: false,
+      isGameWon: false,
+      hasWonBefore: false,
+      history: const [],
+      gridSize: gridSize,
+      gameMode: GameMode.daily,
+      movesCount: 0,
+    );
   }
 
   /// Gets all empty cell positions
   static List<(int, int)> getEmptyCells(List<List<int>> grid) {
+    final gridSize = grid.length;
     final emptyCells = <(int, int)>[];
     for (int row = 0; row < gridSize; row++) {
       for (int col = 0; col < gridSize; col++) {
@@ -40,13 +103,13 @@ class GameManager {
   }
 
   /// Adds a random tile (2 or 4) to an empty position
-  static GameState addRandomTile(GameState state) {
+  static GameState addRandomTile(GameState state, {Random? random}) {
     final emptyCells = getEmptyCells(state.grid);
     if (emptyCells.isEmpty) return state;
 
-    final random = Random();
-    final (row, col) = emptyCells[random.nextInt(emptyCells.length)];
-    final value = random.nextDouble() < 0.9 ? 2 : 4;
+    final rng = random ?? Random();
+    final (row, col) = emptyCells[rng.nextInt(emptyCells.length)];
+    final value = rng.nextDouble() < 0.9 ? 2 : 4;
 
     final newGrid = state.copyGrid();
     newGrid[row][col] = value;
@@ -59,19 +122,27 @@ class GameManager {
       isNew: true,
     );
 
-    return state.copyWith(
-      grid: newGrid,
-      tiles: [...state.tiles, newTile],
-    );
+    return state.copyWith(grid: newGrid, tiles: [...state.tiles, newTile]);
   }
 
   /// Moves tiles in the specified direction
-  static GameState move(GameState state, Direction direction) {
+  static GameState move(
+    GameState state,
+    Direction direction, {
+    Random? random,
+  }) {
     if (state.isGameOver) return state;
+
+    // Check move limit for challenge mode
+    if (state.gameMode == GameMode.challenge && state.movesLimit != null) {
+      if (state.movesCount >= state.movesLimit!) {
+        return state.copyWith(isGameOver: true);
+      }
+    }
 
     // Save current state for undo (before move)
     final previousStates = List<GameState>.from(state.history ?? []);
-    
+
     GameState newState;
     int scoreGained = 0;
 
@@ -92,6 +163,7 @@ class GameManager {
 
     // Check if the grid changed
     bool gridChanged = false;
+    final gridSize = state.gridSize;
     for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
         if (state.grid[i][j] != newState.grid[i][j]) {
@@ -105,23 +177,34 @@ class GameManager {
     if (!gridChanged) return state;
 
     // Add a random tile after successful move
-    newState = addRandomTile(newState);
+    newState = addRandomTile(newState, random: random);
 
     // Update score
     final newScore = state.score + scoreGained;
     final newHighScore = max(newScore, state.highScore);
 
-    // Check for win condition
-    bool hasWon = _checkWin(newState.grid);
+    // Check for win condition based on grid size
+    final winningValue = _getWinningValue(gridSize);
+    bool hasWon = _checkWin(newState.grid, winningValue);
     bool showWin = hasWon && !state.hasWonBefore;
 
     // Check for game over
     bool isGameOver = !hasValidMoves(newState.grid);
 
-    // Update history
+    // Update history (limit to 10 for memory)
     previousStates.add(state.copyWith(history: null));
     if (previousStates.length > 10) {
       previousStates.removeAt(0);
+    }
+
+    // Increment moves count
+    final newMovesCount = state.movesCount + 1;
+
+    // Check if moves limit reached in challenge mode
+    if (state.gameMode == GameMode.challenge && state.movesLimit != null) {
+      if (newMovesCount >= state.movesLimit! && !hasWon) {
+        isGameOver = true;
+      }
     }
 
     return newState.copyWith(
@@ -131,7 +214,22 @@ class GameManager {
       isGameWon: showWin,
       hasWonBefore: hasWon,
       history: previousStates,
+      movesCount: newMovesCount,
     );
+  }
+
+  /// Get winning value based on grid size
+  static int _getWinningValue(int gridSize) {
+    switch (gridSize) {
+      case 3:
+        return 512;
+      case 5:
+        return 4096;
+      case 6:
+        return 8192;
+      default:
+        return 2048;
+    }
   }
 
   /// Undoes the last move
@@ -145,11 +243,14 @@ class GameManager {
     return previousState.copyWith(
       highScore: state.highScore,
       history: newHistory,
+      movesCount: max(0, state.movesCount - 1),
     );
   }
 
   /// Checks if the grid has any valid moves remaining
   static bool hasValidMoves(List<List<int>> grid) {
+    final gridSize = grid.length;
+
     // Check for empty cells
     for (int row = 0; row < gridSize; row++) {
       for (int col = 0; col < gridSize; col++) {
@@ -171,18 +272,34 @@ class GameManager {
     return false;
   }
 
-  /// Checks if the player has won (reached 2048)
-  static bool _checkWin(List<List<int>> grid) {
+  /// Checks if the player has won (reached target value)
+  static bool _checkWin(List<List<int>> grid, int targetValue) {
+    final gridSize = grid.length;
     for (int row = 0; row < gridSize; row++) {
       for (int col = 0; col < gridSize; col++) {
-        if (grid[row][col] >= winningValue) return true;
+        if (grid[row][col] >= targetValue) return true;
       }
     }
     return false;
   }
 
+  /// Gets the highest tile value in the grid
+  static int getHighestTile(List<List<int>> grid) {
+    int highest = 0;
+    final gridSize = grid.length;
+    for (int row = 0; row < gridSize; row++) {
+      for (int col = 0; col < gridSize; col++) {
+        if (grid[row][col] > highest) {
+          highest = grid[row][col];
+        }
+      }
+    }
+    return highest;
+  }
+
   /// Moves and merges a single row/column to the left
   static (List<int>, int) _mergeRow(List<int> row) {
+    final gridSize = row.length;
     // Remove zeros
     final nonZero = row.where((x) => x != 0).toList();
     final result = <int>[];
@@ -211,6 +328,7 @@ class GameManager {
   }
 
   static (GameState, int) _moveLeft(GameState state) {
+    final gridSize = state.gridSize;
     final newGrid = state.copyGrid();
     int totalScore = 0;
     final newTiles = <Tile>[];
@@ -223,7 +341,6 @@ class GameManager {
       // Create tiles for non-zero values
       for (int col = 0; col < gridSize; col++) {
         if (mergedRow[col] != 0) {
-          // Check if this is a merged tile
           bool isMerged = false;
           final oldRow = state.grid[row];
           int oldValue = 0;
@@ -236,24 +353,24 @@ class GameManager {
             isMerged = true;
           }
 
-          newTiles.add(Tile(
-            value: mergedRow[col],
-            row: row,
-            col: col,
-            id: _generateTileId(),
-            isMerged: isMerged,
-          ));
+          newTiles.add(
+            Tile(
+              value: mergedRow[col],
+              row: row,
+              col: col,
+              id: _generateTileId(),
+              isMerged: isMerged,
+            ),
+          );
         }
       }
     }
 
-    return (
-      state.copyWith(grid: newGrid, tiles: newTiles),
-      totalScore,
-    );
+    return (state.copyWith(grid: newGrid, tiles: newTiles), totalScore);
   }
 
   static (GameState, int) _moveRight(GameState state) {
+    final gridSize = state.gridSize;
     final newGrid = state.copyGrid();
     int totalScore = 0;
     final newTiles = <Tile>[];
@@ -266,35 +383,30 @@ class GameManager {
 
       for (int col = 0; col < gridSize; col++) {
         if (newGrid[row][col] != 0) {
-          newTiles.add(Tile(
-            value: newGrid[row][col],
-            row: row,
-            col: col,
-            id: _generateTileId(),
-          ));
+          newTiles.add(
+            Tile(
+              value: newGrid[row][col],
+              row: row,
+              col: col,
+              id: _generateTileId(),
+            ),
+          );
         }
       }
     }
 
-    return (
-      state.copyWith(grid: newGrid, tiles: newTiles),
-      totalScore,
-    );
+    return (state.copyWith(grid: newGrid, tiles: newTiles), totalScore);
   }
 
   static (GameState, int) _moveUp(GameState state) {
+    final gridSize = state.gridSize;
     final newGrid = state.copyGrid();
     int totalScore = 0;
     final newTiles = <Tile>[];
 
     for (int col = 0; col < gridSize; col++) {
       // Extract column
-      final column = [
-        newGrid[0][col],
-        newGrid[1][col],
-        newGrid[2][col],
-        newGrid[3][col],
-      ];
+      final column = List.generate(gridSize, (row) => newGrid[row][col]);
 
       final (mergedColumn, score) = _mergeRow(column);
       totalScore += score;
@@ -303,57 +415,54 @@ class GameManager {
       for (int row = 0; row < gridSize; row++) {
         newGrid[row][col] = mergedColumn[row];
         if (mergedColumn[row] != 0) {
-          newTiles.add(Tile(
-            value: mergedColumn[row],
-            row: row,
-            col: col,
-            id: _generateTileId(),
-          ));
+          newTiles.add(
+            Tile(
+              value: mergedColumn[row],
+              row: row,
+              col: col,
+              id: _generateTileId(),
+            ),
+          );
         }
       }
     }
 
-    return (
-      state.copyWith(grid: newGrid, tiles: newTiles),
-      totalScore,
-    );
+    return (state.copyWith(grid: newGrid, tiles: newTiles), totalScore);
   }
 
   static (GameState, int) _moveDown(GameState state) {
+    final gridSize = state.gridSize;
     final newGrid = state.copyGrid();
     int totalScore = 0;
     final newTiles = <Tile>[];
 
     for (int col = 0; col < gridSize; col++) {
       // Extract column reversed
-      final column = [
-        newGrid[3][col],
-        newGrid[2][col],
-        newGrid[1][col],
-        newGrid[0][col],
-      ];
+      final column = List.generate(
+        gridSize,
+        (i) => newGrid[gridSize - 1 - i][col],
+      );
 
       final (mergedColumn, score) = _mergeRow(column);
       totalScore += score;
 
       // Put back reversed
       for (int row = 0; row < gridSize; row++) {
-        newGrid[row][col] = mergedColumn[3 - row];
-        if (mergedColumn[3 - row] != 0) {
-          newTiles.add(Tile(
-            value: mergedColumn[3 - row],
-            row: row,
-            col: col,
-            id: _generateTileId(),
-          ));
+        newGrid[row][col] = mergedColumn[gridSize - 1 - row];
+        if (mergedColumn[gridSize - 1 - row] != 0) {
+          newTiles.add(
+            Tile(
+              value: mergedColumn[gridSize - 1 - row],
+              row: row,
+              col: col,
+              id: _generateTileId(),
+            ),
+          );
         }
       }
     }
 
-    return (
-      state.copyWith(grid: newGrid, tiles: newTiles),
-      totalScore,
-    );
+    return (state.copyWith(grid: newGrid, tiles: newTiles), totalScore);
   }
 
   /// Continues the game after winning (doesn't show win overlay again)
@@ -361,4 +470,3 @@ class GameManager {
     return state.copyWith(isGameWon: false);
   }
 }
-

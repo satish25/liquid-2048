@@ -1,111 +1,128 @@
 # Liquid 2048 - Google Play Store Listing
 
 ## App Name (50 characters max)
-**Liquid 2048 - Glass Puzzle**
+**Liquid 2048 - Multi-Mode Puzzle Game**
 
 ---
 
 ## Short Description (80 characters max)
-Stunning glass-themed 2048 puzzle! Merge tiles, chase high scores, train your brain.
+5 game modes, 4 grid sizes, daily challenges & 6 themes! The ultimate 2048.
 
 ---
 
 ## Full Description (4000 characters max)
 
-🎮 THE CLASSIC 2048 PUZZLE, REIMAGINED WITH STUNNING VISUALS
+🎮 THE MOST FEATURE-RICH 2048 PUZZLE GAME EVER MADE
 
-Liquid 2048 brings the beloved number puzzle game to life with breathtaking liquid glass aesthetics, neon glow effects, and silky-smooth animations. If you love 2048, you'll be obsessed with this beautiful version!
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✨ STUNNING LIQUID GLASS DESIGN
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-★ Frosted glass effects with realistic blur
-★ Dynamic neon colors that change with each tile
-★ Smooth gradient backgrounds with ambient lighting
-★ Premium glass reflections and satisfying glow effects
-★ Dark theme perfect for night-time play
+Tired of boring, basic 2048 clones? Liquid 2048 redefines the classic puzzle with **5 unique game modes**, **4 different grid sizes**, **daily challenges**, and **6 stunning visual themes**. This isn't just 2048 – it's 2048 evolved!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🧩 ADDICTIVE GAMEPLAY
+🕹️ 5 UNIQUE GAME MODES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-★ Swipe up, down, left, or right to move tiles
-★ Match same numbers to merge them
-★ Build your way up to the legendary 2048 tile
-★ Continue playing after winning to beat your high score
-★ Simple to learn, challenging to master!
+★ CLASSIC – The original 2048 experience
+★ TIME ATTACK – Race against the clock (1-5 min options)
+★ ZEN MODE – Unlimited undos for stress-free play
+★ CHALLENGE – Limited moves to reach the target
+★ DAILY CHALLENGE – Same puzzle worldwide every day!
+
+Each mode offers a completely different gaming experience. Love pressure? Try Time Attack. Want to relax? Zen Mode has unlimited undos. Competitive? Compare your Daily Challenge strategy with friends!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎯 AWESOME FEATURES
+📐 4 GRID SIZES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🔄 UNDO MOVE
-Made a wrong swipe? No problem! Use the undo button to go back and try a different strategy.
+Not everyone wants the same challenge:
 
-🏆 HIGH SCORE TRACKING
-Your best score is saved automatically. Challenge yourself to beat it every time!
-
-📱 RESPONSIVE DESIGN
-Looks amazing on any screen size – phones, tablets, and everything in between.
-
-🎨 BEAUTIFUL ANIMATIONS
-Every tile merge, every movement is animated with satisfying, smooth transitions.
-
-💾 AUTO-SAVE
-Close the app anytime – your game is automatically saved and waiting for you.
-
-🔇 AD-FREE EXPERIENCE
-Pure, uninterrupted gameplay. No annoying ads to break your concentration!
+★ 3×3 – Compact & surprisingly difficult (reach 512)
+★ 4×4 – Classic experience (reach 2048)
+★ 5×5 – More room to strategize (reach 4096)
+★ 6×6 – Epic puzzle sessions (reach 8192)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🎨 VIBRANT TILE COLORS
+📊 DETAILED STATISTICS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Each tile value has its own stunning neon color:
-🔵 2 & 4: Cool Cyan & Blue
-💜 8 & 16: Royal Purple  
-💗 32 & 64: Hot Pink
-🟠 128: Warm Orange
-🟡 256: Bright Yellow
-💚 512: Electric Green
-🏆 2048: Legendary GOLD!
+Track your progress like never before:
+
+★ Total games played & win rate
+★ Best scores by mode AND grid size
+★ Total moves & time played
+★ Daily play streaks
+★ Recent game history
+
+Watch yourself improve over time!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 DAILY CHALLENGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+★ New unique puzzle every day
+★ Same starting tiles for ALL players worldwide
+★ Track your completion streak
+★ Compare strategies with friends
+
+Can you solve today's puzzle?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 6 STUNNING THEMES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Completely transform how your game looks:
+
+🔵 Liquid Neon – Vibrant cyberpunk (cyan & pink)
+💚 Aurora – Northern lights (green & blue)
+🟠 Sunset – Golden hour warmth
+🔷 Ocean – Deep sea tranquility
+⬛ Monochrome – Elegant minimalism
+🟢 Forest – Earthy nature tones
+
+Each theme changes tile colors, backgrounds, and glow effects!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✨ PREMIUM VISUAL DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+★ Liquid glass aesthetic with frosted blur
+★ Satisfying merge animations
+★ Dynamic neon glow effects
+★ Haptic feedback
+★ Smooth 60fps gameplay
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🧠 TRAIN YOUR BRAIN
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-2048 isn't just fun – it's a workout for your mind!
-
 ★ Develop strategic thinking
 ★ Improve pattern recognition  
 ★ Practice planning ahead
-★ Sharpen problem-solving skills
-
-Perfect for students, professionals, or anyone who wants to keep their mind sharp!
+★ Different modes challenge different skills
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🌙 RELAX & UNWIND
+🔇 PURE GAMING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-The soothing dark theme with gentle neon accents makes Liquid 2048 the perfect game for relaxation. Play before bed, during your commute, or whenever you need a mental break.
+★ No intrusive ads
+★ Optional Google Sign-In for cloud saves
+★ Play as guest – no account needed
+★ Works completely offline
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Download Liquid 2048 now and discover why millions love this timeless puzzle!
+Download Liquid 2048 now and experience the ultimate 2048 puzzle game!
 
-🌟 Rate us 5 stars if you enjoy the game! 🌟
+🌟 Rate us 5 stars if you love the game! 🌟
 
 ---
 
 ## Tags/Keywords
-2048, puzzle, number puzzle, brain game, merge, tiles, logic game, strategy, casual, relaxing, glass, neon, minimal, offline, no wifi, free puzzle, brain teaser, math game, number merge
+2048, puzzle, game modes, zen mode, time attack, daily challenge, brain game, merge, tiles, strategy, casual, relaxing, themes, neon, glass, offline, statistics, grid sizes
 
 ---
 
 ## Category
 **Category:** Puzzle
-**Tags:** Puzzle, Brain Games, Casual, Offline
+**Tags:** Puzzle, Brain Games, Casual, Offline, Strategy
 
 ---
 
@@ -114,29 +131,30 @@ Everyone (No violence, no ads, no in-app purchases)
 
 ---
 
-## What's New (Version 1.0)
-🎉 Welcome to Liquid 2048!
+## What's New (Version 2.0)
+🎉 MASSIVE UPDATE! Liquid 2048 is now the most feature-rich 2048 game!
 
 ✨ New Features:
-• Stunning liquid glass visual design
-• Classic 2048 gameplay
-• Undo feature for mistakes
-• High score tracking  
-• Smooth animations
-• Works on all Android devices
+• 5 Game Modes: Classic, Time Attack, Zen, Challenge, Daily
+• 4 Grid Sizes: 3×3, 4×4, 5×5, 6×6
+• Daily Challenges – same puzzle worldwide!
+• Comprehensive Statistics tracking
+• 6 Beautiful Visual Themes
+• Play streaks & achievements
 
-Download now and start merging!
+This update transforms Liquid 2048 into a truly unique puzzle experience!
 
 ---
 
 ## Feature Graphic Text (for 1024x500 banner)
 "LIQUID 2048"
-"The Most Beautiful Puzzle Game"
+"5 Modes • 4 Grids • Daily Challenge"
+"The Ultimate Puzzle Experience"
 
 ---
 
 ## Short Promotional Text
-Swipe. Merge. Reach 2048. The classic puzzle game with stunning glass visuals!
+Not just another 2048! 5 unique modes, 4 grid sizes, daily challenges & 6 themes.
 
 ---
 
@@ -149,3 +167,4 @@ Website: https://github.com/yourusername/liquid_2048_game
 ## Privacy Policy
 https://github.com/yourusername/liquid_2048_game/blob/main/PRIVACY_POLICY.md
 
+---

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../core/providers/auth_provider.dart';
 import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/liquid_glass_container.dart';
 import '../../auth/presentation/login_screen.dart';
 import '../../game/presentation/providers/game_provider.dart';
 import '../../game/presentation/screens/game_screen.dart';
+import '../../game/presentation/screens/mode_selection_screen.dart';
+import '../../game/presentation/screens/statistics_screen.dart';
+import '../../game/presentation/screens/theme_selection_screen.dart';
 
-/// Home screen with title and play button
+/// Home screen with title, game modes, and navigation
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -44,6 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget build(BuildContext context) {
     final highScore = ref.watch(highScoreProvider);
     final authState = ref.watch(authStateProvider);
+    final stats = ref.watch(gameStatisticsProvider);
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -64,40 +69,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ),
         child: Stack(
           children: [
-            // Animated background decorations
             _buildAnimatedBackground(),
-            // Main content
             SafeArea(
               child: Column(
                 children: [
-                  // User profile bar
                   _buildUserProfileBar(authState),
-                  // Scrollable content
                   Expanded(
-                    child: Center(
-                      child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Logo/Title
-                            _buildTitle(),
-                            const SizedBox(height: 48),
-                            // Preview grid decoration
-                            _buildPreviewGrid(),
-                            const SizedBox(height: 48),
-                            // High score display
-                            if (highScore > 0) ...[
-                              _buildHighScoreCard(highScore),
-                              const SizedBox(height: 32),
-                            ],
-                            // Play button
-                            _buildPlayButton(context),
-                            const SizedBox(height: 24),
-                            // How to play hint
-                            _buildHowToPlay(),
-                          ],
-                        ),
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          _buildTitle(),
+                          const SizedBox(height: 32),
+                          _buildQuickStats(highScore, stats),
+                          const SizedBox(height: 32),
+                          _buildQuickPlayButton(),
+                          const SizedBox(height: 16),
+                          _buildGameModeButton(),
+                          const SizedBox(height: 32),
+                          _buildFeatureGrid(),
+                          const SizedBox(height: 24),
+                          _buildHowToPlay(),
+                          const SizedBox(height: 24),
+                        ],
                       ),
                     ),
                   ),
@@ -118,7 +113,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          // Profile picture
           GestureDetector(
             onTap: () => _showProfileMenu(context),
             child: Container(
@@ -147,7 +141,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ),
           ),
           const SizedBox(width: 12),
-          // User name
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +168,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ],
             ),
           ),
-          // Settings/Menu button
           LiquidGlassIconButton(
             icon: Icons.more_vert_rounded,
             onPressed: () => _showProfileMenu(context),
@@ -201,7 +193,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle bar
             Container(
               width: 40,
               height: 4,
@@ -211,7 +202,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
             const SizedBox(height: 24),
-            // Profile info
             if (!isGuest && authState.user != null) ...[
               CircleAvatar(
                 radius: 40,
@@ -220,11 +210,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     : null,
                 backgroundColor: LiquidColors.neonCyan.withOpacity(0.2),
                 child: authState.user!.photoURL == null
-                    ? Icon(
-                        Icons.person,
-                        size: 40,
-                        color: LiquidColors.neonCyan,
-                      )
+                    ? Icon(Icons.person, size: 40, color: LiquidColors.neonCyan)
                     : null,
               ),
               const SizedBox(height: 16),
@@ -246,7 +232,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 ),
               const SizedBox(height: 24),
             ],
-            // Menu options
             if (isGuest)
               _ProfileMenuItem(
                 icon: Icons.login_rounded,
@@ -283,7 +268,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _buildAnimatedBackground() {
     return Stack(
       children: [
-        // Top glow
         AnimatedBuilder(
           animation: _pulseAnimation,
           builder: (context, child) {
@@ -309,7 +293,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             );
           },
         ),
-        // Bottom glow
         AnimatedBuilder(
           animation: _pulseAnimation,
           builder: (context, child) {
@@ -335,7 +318,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             );
           },
         ),
-        // Center purple glow
         Positioned(
           top: MediaQuery.of(context).size.height * 0.3,
           left: MediaQuery.of(context).size.width * 0.3,
@@ -360,7 +342,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _buildTitle() {
     return Column(
       children: [
-        // Main title with shader mask for gradient
         ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [
@@ -372,10 +353,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           child: Text(
             'LIQUID',
             style: GoogleFonts.orbitron(
-              fontSize: 56,
+              fontSize: 48,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              letterSpacing: 12,
+              letterSpacing: 10,
               height: 1,
             ),
           ),
@@ -388,10 +369,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               child: Text(
                 '2048',
                 style: GoogleFonts.orbitron(
-                  fontSize: 80,
+                  fontSize: 72,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  letterSpacing: 8,
+                  letterSpacing: 6,
                   height: 1,
                   shadows: [
                     Shadow(
@@ -412,150 +393,228 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  Widget _buildPreviewGrid() {
-    return LiquidGlassContainer(
-      padding: const EdgeInsets.all(16),
-      child: SizedBox(
-        width: 200,
-        height: 200,
-        child: GridView.count(
-          crossAxisCount: 4,
-          mainAxisSpacing: 6,
-          crossAxisSpacing: 6,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            _previewTile(2),
-            _previewTile(0),
-            _previewTile(4),
-            _previewTile(0),
-            _previewTile(0),
-            _previewTile(8),
-            _previewTile(0),
-            _previewTile(2),
-            _previewTile(16),
-            _previewTile(0),
-            _previewTile(32),
-            _previewTile(0),
-            _previewTile(0),
-            _previewTile(64),
-            _previewTile(0),
-            _previewTile(128),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _previewTile(int value) {
-    if (value == 0) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          color: Colors.white.withOpacity(0.05),
-        ),
-      );
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            LiquidColors.getTileColor(value),
-            LiquidColors.getTileColor(value).withOpacity(0.6),
-          ],
-        ),
-        border: Border.all(
-          color: LiquidColors.getTileBorderColor(value).withOpacity(0.5),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: LiquidColors.getTileBorderColor(value).withOpacity(0.3),
-            blurRadius: 8,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          value.toString(),
-          style: GoogleFonts.orbitron(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: LiquidColors.getTileTextColor(value),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHighScoreCard(int highScore) {
-    return LiquidGlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-      borderColor: LiquidColors.neonYellow.withOpacity(0.4),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.emoji_events_rounded,
-            color: LiquidColors.neonYellow,
-            size: 28,
-          ),
-          const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'HIGH SCORE',
-                style: GoogleFonts.orbitron(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
+  Widget _buildQuickStats(int highScore, stats) {
+    return Row(
+      children: [
+        Expanded(
+          child: LiquidGlassContainer(
+            padding: const EdgeInsets.all(16),
+            borderColor: LiquidColors.neonYellow.withOpacity(0.4),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.emoji_events_rounded,
                   color: LiquidColors.neonYellow,
-                  letterSpacing: 2,
+                  size: 28,
                 ),
-              ),
-              Text(
-                highScore.toString(),
-                style: GoogleFonts.orbitron(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                const SizedBox(height: 8),
+                Text(
+                  highScore.toString(),
+                  style: GoogleFonts.orbitron(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPlayButton(BuildContext context) {
-    return LiquidGlassButton(
-      onPressed: () => _startGame(context),
-      accentColor: LiquidColors.neonCyan,
-      padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 20),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.play_arrow_rounded,
-            color: Colors.white,
-            size: 28,
-          ),
-          const SizedBox(width: 12),
-          Text(
-            'PLAY',
-            style: GoogleFonts.orbitron(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 4,
+                Text(
+                  'Best Score',
+                  style: GoogleFonts.rajdhani(
+                    fontSize: 12,
+                    color: Colors.white54,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: LiquidGlassContainer(
+            padding: const EdgeInsets.all(16),
+            borderColor: LiquidColors.neonCyan.withOpacity(0.4),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.sports_esports_rounded,
+                  color: LiquidColors.neonCyan,
+                  size: 28,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  stats.totalGamesPlayed.toString(),
+                  style: GoogleFonts.orbitron(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'Games Played',
+                  style: GoogleFonts.rajdhani(
+                    fontSize: 12,
+                    color: Colors.white54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: LiquidGlassContainer(
+            padding: const EdgeInsets.all(16),
+            borderColor: LiquidColors.neonPink.withOpacity(0.4),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.local_fire_department_rounded,
+                  color: LiquidColors.neonPink,
+                  size: 28,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  '${stats.currentStreak}',
+                  style: GoogleFonts.orbitron(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  'Day Streak',
+                  style: GoogleFonts.rajdhani(
+                    fontSize: 12,
+                    color: Colors.white54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuickPlayButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: LiquidGlassButton(
+        onPressed: () => _startQuickGame(context),
+        accentColor: LiquidColors.neonCyan,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 32),
+            const SizedBox(width: 12),
+            Text(
+              'QUICK PLAY',
+              style: GoogleFonts.orbitron(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 3,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGameModeButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: LiquidGlassButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ModeSelectionScreen()),
+        ),
+        accentColor: LiquidColors.neonPurple,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.tune_rounded, color: Colors.white, size: 24),
+            const SizedBox(width: 12),
+            Text(
+              'GAME MODES',
+              style: GoogleFonts.orbitron(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 2,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureGrid() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _buildFeatureCard(
+                icon: Icons.bar_chart_rounded,
+                title: 'Statistics',
+                color: LiquidColors.neonGreen,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StatisticsScreen(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildFeatureCard(
+                icon: Icons.palette_rounded,
+                title: 'Themes',
+                color: LiquidColors.neonOrange,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ThemeSelectionScreen(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFeatureCard({
+    required IconData icon,
+    required String title,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: LiquidGlassContainer(
+        padding: const EdgeInsets.all(20),
+        borderColor: color.withOpacity(0.3),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 32),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: GoogleFonts.rajdhani(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -578,10 +637,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           const SizedBox(height: 12),
           Text(
             'Swipe to move all tiles. When two tiles with the same number touch, they merge into one!',
-            style: GoogleFonts.rajdhani(
-              fontSize: 14,
-              color: Colors.white60,
-            ),
+            style: GoogleFonts.rajdhani(fontSize: 14, color: Colors.white60),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
@@ -605,21 +661,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: Colors.white24,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white24, width: 1),
       ),
-      child: Icon(
-        icon,
-        color: Colors.white54,
-        size: 16,
-      ),
+      child: Icon(icon, color: Colors.white54, size: 16),
     );
   }
 
-  void _startGame(BuildContext context) {
-    // Reset the game before navigating
+  void _startQuickGame(BuildContext context) {
     ref.read(gameProvider.notifier).restart();
 
     Navigator.of(context).push(
@@ -627,10 +675,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         pageBuilder: (context, animation, secondaryAnimation) =>
             const GameScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: child,
-          );
+          return FadeTransition(opacity: animation, child: child);
         },
         transitionDuration: const Duration(milliseconds: 300),
       ),
@@ -638,7 +683,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 }
 
-/// Profile menu item widget
 class _ProfileMenuItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -665,9 +709,7 @@ class _ProfileMenuItem extends StatelessWidget {
         ),
       ),
       onTap: onTap,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       tileColor: color.withOpacity(0.1),
     );
   }

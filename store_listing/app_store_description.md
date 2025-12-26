@@ -1,85 +1,107 @@
 # Liquid 2048 - App Store Listing
 
 ## App Name
-**Liquid 2048 - Glass Puzzle Game**
+**Liquid 2048 - Multi-Mode Puzzle**
 
 ---
 
 ## Subtitle (30 characters max)
-Merge Tiles, Reach 2048!
+5 Modes • 4 Grid Sizes • 6 Themes
 
 ---
 
 ## Promotional Text (170 characters max)
-✨ Experience the classic 2048 puzzle reimagined with stunning liquid glass visuals! Swipe, merge, and chase your high score in this beautifully crafted brain teaser.
+🎮 Not just another 2048! Featuring 5 unique game modes, 4 grid sizes (3×3 to 6×6), Daily Challenges, detailed statistics, and 6 stunning visual themes. Try Zen Mode!
 
 ---
 
 ## Description
 
-**🎮 The Classic 2048 Puzzle, Reimagined**
+**🎮 THE MOST FEATURE-RICH 2048 EXPERIENCE**
 
-Dive into Liquid 2048 – a visually stunning take on the beloved number puzzle game. With mesmerizing liquid glass aesthetics, neon glows, and buttery-smooth animations, this isn't just a game – it's an experience.
+Liquid 2048 isn't just another puzzle game – it's a completely reimagined experience with **5 unique game modes**, **4 different grid sizes**, **Daily Challenges**, and **6 gorgeous visual themes**. Whether you want a quick challenge or a relaxing brain workout, we've got you covered.
 
-**✨ BEAUTIFUL LIQUID GLASS DESIGN**
-• Frosted glass effects with realistic blur and transparency
-• Dynamic neon color themes that change with tile values
-• Smooth gradient backgrounds with ambient lighting
-• Premium glass reflections and glow effects
+**🕹️ 5 UNIQUE GAME MODES**
 
-**🧩 CLASSIC 2048 GAMEPLAY**
-• Swipe in any direction to move all tiles
-• When two tiles with the same number touch, they merge into one
-• Combine tiles strategically to reach the legendary 2048 tile
-• Keep playing to beat your high score even after winning!
+★ **CLASSIC MODE** – The traditional 2048 experience you know and love
+★ **TIME ATTACK** – Race against the clock! Choose 1-5 minute challenges
+★ **ZEN MODE** – Unlimited undos for stress-free play at your own pace
+★ **CHALLENGE MODE** – Limited moves to reach the target – test your skills!
+★ **DAILY CHALLENGE** – Same puzzle worldwide every day. Compare your strategy!
 
-**🎯 FEATURES**
-• 🔄 Undo Move – Made a mistake? Go back one step
-• 🏆 High Score Tracking – Compete against yourself
-• 📱 Works Beautifully Everywhere – Optimized for all screen sizes
-• 🎨 Stunning Animations – Satisfying tile merges and movements
-• 💾 Auto-Save – Your progress is always saved
-• 🔇 No Ads – Pure, uninterrupted gameplay
+**📐 4 GRID SIZES – Find Your Perfect Challenge**
 
-**🎨 UNIQUE TILE COLORS**
-Each tile value has its own vibrant neon color:
-• 2 & 4: Cool Cyan & Blue
-• 8 & 16: Royal Purple
-• 32 & 64: Hot Pink
-• 128 & 256: Warm Orange & Yellow
-• 512 & 1024: Electric Green & Cyan
-• 2048: Legendary Gold ✨
+★ **3×3 Grid** – Compact and surprisingly hard! Reach 512
+★ **4×4 Grid** – The classic experience. Reach 2048
+★ **5×5 Grid** – More room to breathe. Reach 4096  
+★ **6×6 Grid** – Epic puzzle sessions. Reach 8192
+
+**📊 DETAILED STATISTICS & TRACKING**
+
+We track everything so you can see your improvement:
+★ Games played & win rate percentage
+★ Best scores by mode and grid size
+★ Total time played & total moves
+★ Daily play streaks & best streak
+★ Recent game history
+
+**📅 DAILY CHALLENGES**
+
+★ New unique puzzle generated every day
+★ Same starting position for all players worldwide
+★ Track your daily challenge completion streak
+★ Compare strategies with friends
+
+**🎨 6 STUNNING VISUAL THEMES**
+
+Each theme completely transforms the game's look:
+★ **Liquid Neon** – Vibrant cyan & pink cyberpunk vibes
+★ **Aurora** – Northern lights inspired green & blue
+★ **Sunset** – Warm orange & golden hour tones
+★ **Ocean** – Deep sea teal tranquility
+★ **Monochrome** – Elegant black & white minimalism
+★ **Forest** – Earthy green nature theme
+
+**✨ PREMIUM VISUAL EXPERIENCE**
+
+★ Liquid glass aesthetic with frosted blur effects
+★ Satisfying merge animations & haptic feedback
+★ Dynamic neon glow effects
+★ Adaptive UI for all screen sizes
 
 **🧠 TRAIN YOUR BRAIN**
-2048 is more than just a game – it's a mental workout! Improve your:
-• Strategic thinking
-• Pattern recognition
-• Planning ahead
-• Problem-solving skills
 
-**🌙 PERFECT FOR RELAXATION**
-The soothing dark theme with gentle neon glows makes Liquid 2048 perfect for unwinding. No flashing ads, no pressure – just you and the puzzle.
+★ Develop strategic thinking
+★ Improve pattern recognition
+★ Practice planning ahead
+★ Challenge yourself with harder modes
 
-Download Liquid 2048 now and experience the most beautiful version of the classic puzzle game!
+**🔇 PURE GAMING EXPERIENCE**
+
+★ No intrusive ads
+★ Cloud save with Google Sign-In (optional)
+★ Play as guest – no account required
+★ Works offline
 
 ---
 
 ## Keywords (100 characters max, separated by commas)
-2048,puzzle,number game,brain teaser,merge,tiles,logic,strategy,glass,neon,relaxing,casual,minimal
+2048,puzzle,modes,zen,challenge,daily,grid,themes,brain,merge,tiles,strategy,offline,statistics
 
 ---
 
-## What's New (Version 1.0)
-🎉 Welcome to Liquid 2048!
+## What's New (Version 2.0)
+🎉 MAJOR UPDATE! Liquid 2048 is now the most feature-rich 2048 game!
 
-• Beautiful liquid glass design with neon effects
-• Classic 2048 gameplay you know and love
-• Undo feature to correct mistakes
-• High score tracking
-• Smooth animations and transitions
-• Works on all devices
+NEW FEATURES:
+• 5 Game Modes: Classic, Time Attack, Zen, Challenge, Daily
+• 4 Grid Sizes: 3×3, 4×4, 5×5, 6×6
+• Daily Challenges with global seed
+• Comprehensive Statistics tracking
+• 6 Beautiful Visual Themes
+• Play streaks & achievements
 
-Enjoy the game!
+Enjoy the upgrade!
 
 ---
 
@@ -96,23 +118,29 @@ Enjoy the game!
 
 ## Screenshots Descriptions
 
-**Screenshot 1 - Home Screen**
-"Welcome to Liquid 2048 – Stunning liquid glass design"
+**Screenshot 1 - Mode Selection**
+"5 unique game modes – Classic, Time Attack, Zen, Challenge & Daily"
 
-**Screenshot 2 - Gameplay**
-"Swipe to merge tiles and reach 2048"
+**Screenshot 2 - Grid Selection**
+"4 grid sizes from 3×3 to 6×6 – find your perfect challenge"
 
-**Screenshot 3 - Tile Colors**
-"Beautiful neon colors for every tile value"
+**Screenshot 3 - Classic Gameplay**
+"Beautiful liquid glass tiles with smooth animations"
 
-**Screenshot 4 - Win Screen**
-"Celebrate your victory with style"
+**Screenshot 4 - Statistics**
+"Track your progress with detailed statistics"
 
-**Screenshot 5 - Game Over**
-"Track your score and try again"
+**Screenshot 5 - Daily Challenge**
+"New puzzle every day – same for everyone worldwide"
 
-**Screenshot 6 - Undo Feature**
-"Made a mistake? Use undo to go back"
+**Screenshot 6 - Themes**
+"6 stunning visual themes to choose from"
+
+**Screenshot 7 - Time Attack**
+"Race against the clock in Time Attack mode"
+
+**Screenshot 8 - Zen Mode**
+"Unlimited undos in relaxing Zen Mode"
 
 ---
 
@@ -125,3 +153,33 @@ https://github.com/yourusername/liquid_2048_game/blob/main/PRIVACY_POLICY.md
 ## Copyright
 © 2025 Your Company Name. All rights reserved.
 
+---
+
+## App Review Notes (For Submission)
+
+**See APP_REVIEW_NOTES.md for the full detailed review notes to paste into App Store Connect.**
+
+### Quick Summary for Reviewers:
+
+This app was previously rejected under 4.3(a). We have added **substantial unique features**:
+
+| Feature | Typical 2048 Apps | Liquid 2048 |
+|---------|-------------------|-------------|
+| Game Modes | 1 | **5 modes** |
+| Grid Sizes | 1 (4×4) | **4 sizes** (3×3, 4×4, 5×5, 6×6) |
+| Daily Challenge | No | **Yes** (global seed) |
+| Statistics | Basic | **Comprehensive** |
+| Visual Themes | 0-2 | **6 themes** |
+| Unlimited Undos | No | **Yes** (Zen Mode) |
+
+**Key Differentiators:**
+1. **Zen Mode** - Unlimited undos for stress-free play
+2. **Time Attack** - Timed challenges with 4 duration options
+3. **Daily Challenge** - Seeded random ensures same puzzle globally each day
+4. **Statistics** - Tracks scores by mode AND grid size separately
+5. **6 Themes** - Complete visual transformation
+6. **Multiple Grids** - 3×3, 4×4, 5×5, 6×6 with different win targets
+
+**Technical:** Built from scratch in Flutter/Dart. No templates, no purchased code, no copied game logic.
+
+---
